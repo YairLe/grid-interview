@@ -1,22 +1,28 @@
-import React from 'react';
+import React from "react";
 
 const Grid = ({ config, data }) => (
   <table>
     <thead>
-    <tr>
-      <th>Col 1</th>
-      <th>Col 2</th>
-    </tr>
+      <tr>
+        {config.map((column) => (
+          <th key={column.title}>{column.title}</th>
+        ))}
+      </tr>
     </thead>
     <tbody>
-    <tr>
-      <td>Data 1</td>
-      <td>Data 2</td>
-    </tr>
-    <tr>
-      <td>Data 1</td>
-      <td>Data 2</td>
-    </tr>
+      {data.map((dataObject) => (
+        <tr key={dataObject[config[0].field]}>
+          {config.map(({ field, component: Component }) => (
+            <td key={field}>
+              {Component ? (
+                <Component data={dataObject[field]} />
+              ) : (
+                dataObject[field]
+              )}
+            </td>
+          ))}
+        </tr>
+      ))}
     </tbody>
   </table>
 );
